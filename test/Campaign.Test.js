@@ -43,6 +43,7 @@ contract("CampaignFactory", (accounts) => {
     assert.equal("Buy batteries", request.description);
   });
 
+  //run this test individually by commenting the above test cases
   it("process requests", async () => {
     await instance_campaign.contribute({
       value: web3.utils.toWei("10", "ether"),
