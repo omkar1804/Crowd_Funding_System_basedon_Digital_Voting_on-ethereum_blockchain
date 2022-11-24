@@ -38,9 +38,31 @@ contract("CampaignFactory", (accounts) => {
 
   it("allows a manager to make a request", async () => {
     await instance_campaign.createRequest("Buy batteries", 999999, accounts[1]);
+
     const request = await instance_campaign.requests(0);
     assert.equal("Buy batteries", request.description);
   });
 
-  it("process requests", async () => {});
+  it("process requests", async () => {
+    await instance_campaign.contribute({
+      value: web3.utils.toWei("10", "ether"),
+      from: accounts[0],
+    });
+
+    await instance_campaign.createRequest(
+      "Buy batteries",
+      web3.utils.toWei("5", "ether"),
+      accounts[1]
+    );
+
+    await instance_campaign.approveRequest(0);
+
+    await instance_campaign.finalizeRequest(0);
+
+    let balance = await web3.eth.getBalance(accounts[1]);
+    let ether = await web3.utils.fromWei(balance, "ether");
+    ether = parseFloat(ether);
+    console.log(ether);
+    assert(ether > 104);
+  });
 });
