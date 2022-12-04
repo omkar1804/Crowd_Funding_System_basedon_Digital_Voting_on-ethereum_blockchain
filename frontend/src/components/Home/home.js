@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import factory from "../../factory";
 import web3 from "../../web3";
 
@@ -13,6 +14,7 @@ import {
 } from "semantic-ui-react";
 
 function Home() {
+  const navigate = useNavigate();
   const [campaigns, setcampaigns] = useState([]);
   const [currentAcc, setcurrentAcc] = useState();
 
@@ -94,7 +96,7 @@ function Home() {
                 >
                   <Card.Group>
                     {campaigns.length ? (
-                      campaigns.map((m, i) => (
+                      campaigns.map((add, i) => (
                         <Card
                           fluid
                           color="teal"
@@ -111,7 +113,7 @@ function Home() {
                               marginBottom: "1rem",
                             }}
                           >
-                            {m}
+                            {add}
                           </Card.Header>
 
                           <Card.Description>
@@ -120,6 +122,9 @@ function Home() {
                                 backgroundColor: "#66fcf1",
                                 color: "#1f2833",
                                 border: "1px solid #1f2833",
+                              }}
+                              onClick={() => {
+                                navigate("/campaign", { state: { data: add } });
                               }}
                             >
                               View Campaign
