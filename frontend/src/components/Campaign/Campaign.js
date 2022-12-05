@@ -9,14 +9,13 @@ import {
   Card,
   Input,
 } from "semantic-ui-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import web3 from "../../web3";
 import camp_abi from "../../campaign";
 
 function Campaign() {
   const location = useLocation();
-  const inputRef = useRef();
-
+  const navigate = useNavigate();
   const [manager, setmanager] = useState("");
   const [minAmount, setminAmount] = useState(0);
   const [approvers, setapprovers] = useState();
@@ -24,6 +23,7 @@ function Campaign() {
   const [balance, setbalance] = useState(0);
   const [currentAcc, setcurrentAcc] = useState();
   const [input, setinput] = useState();
+  const camp = new web3.eth.Contract(camp_abi, location.state.data);
 
   const getStats = async () => {
     const camp = new web3.eth.Contract(camp_abi, location.state.data);
@@ -170,7 +170,11 @@ function Campaign() {
                   <br />
                   <Button
                     style={{ backgroundColor: "#66fcf1", color: "#1f2833" }}
-                    onClick={(e) => {}}
+                    onClick={(e) => {
+                      navigate("/request", {
+                        state: { data: location.state.data },
+                      });
+                    }}
                   >
                     View Requests
                   </Button>
